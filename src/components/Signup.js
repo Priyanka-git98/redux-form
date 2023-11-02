@@ -1,13 +1,16 @@
 // MyForm.js
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import {useNavigate} from 'react-router-dom'
 
-const MyForm = (props) => {
+const Signup = (props) => {
+  const navigate = useNavigate();
   const { handleSubmit } = props;
 
   const onSubmit = (formData) => {
     // Handle form submission here
     console.log('Form data submitted:', formData);
+    navigate ('./login')
   };
 
   return (
@@ -20,11 +23,15 @@ const MyForm = (props) => {
         <label htmlFor="email">Email</label>
         <Field name="email" component="input" type="email" />
       </div>
-      <button type="submit">Submit</button>
+      <div>
+        <label htmlFor="password">Password</label>
+        <Field name="password" component="input" type="password" />
+      </div>
+      <button type="submit">Signup</button>
     </form>
   );
 };
 
 export default reduxForm({
   form: 'myForm', 
-})(MyForm);
+})(Signup);
