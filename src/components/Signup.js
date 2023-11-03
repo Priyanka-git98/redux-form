@@ -1,10 +1,10 @@
-// MyForm.js
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { TextField, Button, Typography, Container, Grid } from '@mui/material';
 
 
 const Signup = (props) => {
-    const { handleSubmit } = props;
+  const { handleSubmit } = props;
 
   const onSubmit = (formData) => {
     // Handle form submission here
@@ -13,24 +13,59 @@ const Signup = (props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="name">Name</label>
-        <Field name="name" component="input" type="text" />
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
-        <Field name="email" component="input" type="email" />
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <Field name="password" component="input" type="password" />
-      </div>
-      <button type="submit">Signup</button>
-    </form>
+    <Container maxWidth="xs">
+      <Typography variant='h4'>Create your account</Typography>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container spacing={4}>
+          <Grid item xs={10}>
+            <Field
+              name="name"
+              component={renderTextField}
+              type="text"
+              label="Name"
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={10}>
+            <Field
+              name="email"
+              component={renderTextField}
+              type="email"
+              label="Email"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={10}>
+            <Field
+              name="password"
+              component={renderTextField}
+              type="password"
+              label="Password"
+              fullWidth
+            />
+          </Grid>
+          <Grid>
+          <Button type="submit" variant="contained" color='primary'>Signup</Button>
+          </Grid>
+        </Grid>
+      </form>
+    </Container>
   );
 };
 
+const renderTextField = ({ input, label, type, fullWidth, meta: { touched, error } }) => (
+  <TextField
+    label={label}
+    type={type}
+    fullWidth={fullWidth}
+    {...input}
+    error={touched && error}
+    helperText={touched && error}
+  />
+);
+
+
 export default reduxForm({
-  form: 'myForm', 
+  form: 'myForm',
 })(Signup);

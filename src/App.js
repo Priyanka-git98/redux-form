@@ -8,7 +8,6 @@ function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <h1>Redux-Form Example</h1>
         <Signup />
       </div>
     </Provider>
