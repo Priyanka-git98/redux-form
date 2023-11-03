@@ -5,9 +5,9 @@ export const registration = (formData) => {
       };
     };
     
-    // export const login = (formData) => {
-    //   return {
-    //     type: 'LOGIN',
-    //     payload: formData,
-    //   };
-    // };
+    export const login = (formData) => {
+      return {
+        type: 'LOGIN',
+        payload: formData,
+      };
+    };
