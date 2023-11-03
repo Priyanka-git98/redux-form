@@ -1,15 +1,17 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { TextField, Button, Typography, Container, Grid } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 
 const Signup = (props) => {
+  const navigate = useNavigate();
   const { handleSubmit } = props;
 
   const onSubmit = (formData) => {
-    // Handle form submission here
     console.log('Form data submitted:', formData);
     localStorage.setItem('formData', JSON.stringify(formData));
+    navigate('/login')
   };
 
   return (
