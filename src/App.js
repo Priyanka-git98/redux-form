@@ -2,14 +2,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import MyForm from './components/Signup';
+import Signup from './components/Signup';
 
 function App() {
   return (
     <Provider store={store}>
       <div className="App">
         <h1>Redux-Form Example</h1>
-        <MyForm />
+        <Signup />
       </div>
     </Provider>
   );
