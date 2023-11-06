@@ -1,13 +1,13 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
-const ProtectedRoute = ({viewpage}) => {
+const ProtectedRoute = ({children}) => {
     const isAuthenticated = localStorage.getItem("email")
-
+    console.log(children)
     if(!isAuthenticated) {
         return <Navigate to="/login" />
     }
- return viewpage;
+ return children;
 };
 
 export default ProtectedRoute;
