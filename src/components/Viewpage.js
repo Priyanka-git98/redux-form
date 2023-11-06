@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import {
   Container,
   Typography,
@@ -8,6 +9,8 @@ import {
   TextField,
   Button,
   Pagination,
+  AppBar,
+  Toolbar,
 } from '@mui/material';
 import axios from 'axios';
 import Cart from './Cart';
@@ -62,16 +65,22 @@ function ViewPage() {
 
   return (
     <Container>
+        <AppBar position="static">
+        <Toolbar>
+          <Container>
+            <TextField
+              label="Search"
+              variant="outlined"
+              fullWidth
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </Container>
+        </Toolbar>
+      </AppBar>
       <Typography variant="h4" align="center" gutterBottom>
         List of Posts
       </Typography>
-      <TextField
-        label="Search"
-        variant="outlined"
-        fullWidth
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
       <Grid container spacing={3}>
         {currentPosts.map(post => (
           <Grid item key={post.id} xs={12} sm={6} md={4}>
