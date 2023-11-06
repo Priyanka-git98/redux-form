@@ -14,7 +14,7 @@ const Login = (props) => {
     if (storedUserData) {
       if (formData.email === storedUserData.email && formData.password === storedUserData.password) {
         // Successful login, redirect to the view page
-        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('email', formData.email);
         navigate('/viewpage');
       } else {
         // Invalid credentials, show an error message
