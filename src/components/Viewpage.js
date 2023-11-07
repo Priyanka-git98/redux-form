@@ -124,7 +124,7 @@ const ViewPage = () => {
           <List>
             {cart.map((item) => (
               <ListItem key={item.id}>
-                <ListItemText primary={item.title} secondary={`ID: ${item.id}`} />
+                <ListItemText primary={item.title} />
                 <ListItemSecondaryAction>
                   <Button variant="contained" color="secondary" onClick={() => removeFromCart(item)}>
                     Remove
@@ -163,7 +163,7 @@ const ViewPage = () => {
         onClose={closeCheckoutSuccess}
         message="Checkout Successful!"
       />
-      <UserProfile open={isUserProfileOpen} onClose={closeUserProfile} user={currentUser} /> {/* Render the UserProfile component */}
+      <UserProfile open={isUserProfileOpen} onClose={closeUserProfile} user={currentUser} /> 
     </div>
   );
 };
