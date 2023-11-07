@@ -95,7 +95,7 @@ const ViewPage = () => {
                   <AddShoppingCart />
                 </Badge>
               </IconButton>
-              <Avatar alt="User Avatar" src={currentUser.avatarSrc} sx={{ cursor: 'pointer' }} onClick={openUserProfile} /> {/* Add user avatar with onClick to open user profile */}
+              <Avatar alt="User Avatar" src={currentUser.avatarSrc} sx={{ cursor: 'pointer' }} onClick={openUserProfile} />
             </div>
           </Toolbar>
         </Container>
