@@ -14,7 +14,6 @@ function App() {
         <Route path="/" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path ="/viewpage" element = {<ProtectedRoute ><ViewPage/></ProtectedRoute>}/>
-        {/* <Route path="/viewpage" element={<ViewPage />} /> */}
         <Route path="/cart" element={<Cart />} />
       </Routes>
     </Router>
