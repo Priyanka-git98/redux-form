@@ -4,15 +4,19 @@ import { TextField, Button, Typography, Container, Grid } from '@mui/material';
 import {Link} from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
+
+
 const validate = formData => {
   const errors = {}
   if (!formData.name) {
     errors.name = 'Required'
   } else if (formData.name.length > 15) {
     errors.name = 'Must be 15 characters or less'
-  }else if (!/^[A-Za-z]+$/.test(formData.name)) {
-    errors.name = 'Name should contain only alphabets';
-  } 
+  }
+  // }else if (!/^[A-Za-z]+$/.test(formData.name)) {
+  //   errors.name = 'Name should contain only alphabets';
+  // }
+
   if (!formData.email) {
     errors.email = 'Required'
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)) {
@@ -22,9 +26,12 @@ const validate = formData => {
     errors.password = 'Required';
   } else if (formData.password.length < 6) {
     errors.password = 'Password must be at least 6 characters long';
+  } else if (!/[A-Z]/.test(formData.password)) {
+    errors.password = 'Password must contain at least one uppercase letter';
   }
   return errors;
 };
+
 
 
 const Signup = (props) => {
