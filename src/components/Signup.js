@@ -12,6 +12,8 @@ const validate = formData => {
     errors.name = 'Required'
   } else if (formData.name.length > 15) {
     errors.name = 'Must be 15 characters or less'
+  } else if (!/^[A-Za-z]/.test(formData.name)){
+    errors.name = 'Name should contains alphabets'
   }
   if (!formData.email) {
     errors.email = 'Required'
@@ -24,6 +26,8 @@ const validate = formData => {
     errors.password = 'Password must be at least 6 characters long';
   } else if (!/[A-Z]/.test(formData.password)) {
     errors.password = 'Password must contain at least one uppercase letter';
+  } else if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(formData.password)) {
+    errors.password = 'Password must contain at least one special character';
   }
   return errors;
 };
