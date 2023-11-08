@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Container, Toolbar, Typography, InputBase, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Badge, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Avatar, CircularProgress, ListItemAvatar } from '@mui/material';
-import { Search, AddShoppingCart } from '@mui/icons-material';
+import { AppBar, Container, Toolbar, Typography, InputBase, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Badge, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Avatar, CircularProgress, ListItemAvatar, Card, CardContent, CardActions, Pagination, Grid } from '@mui/material';
+import { Search, AddShoppingCart} from '@mui/icons-material';
 import UserProfile from './UserProfile';
 
 const ViewPage = () => {
@@ -11,6 +11,23 @@ const ViewPage = () => {
   const [isCheckoutDialogOpen, setIsCheckoutDialogOpen] = useState(false);
   const [isCheckoutSuccess, setIsCheckoutSuccess] = useState(false);
   const [isUserProfileOpen, setIsUserProfileOpen] = useState(false);
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [itemsPerPage] = useState(9);
+  const [search, setSearch] = useState('');
+
+  const handleSearch = () => {
+    const filtered = data.filter((item) =>
+      item.title.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredData(filtered);
+    setPage(1);
+  };
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
   
 
   const [currentUser, setCurrentUser] = useState({
@@ -117,29 +134,42 @@ const ViewPage = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Container sx={{ marginTop: 2 }}>
-         {loading ? (
+      <Grid sx={{ marginTop: 2 }}>
+      {loading ? (
         <CircularProgress />
       ) : (
-        <List>
+        <Card>
           {items.map((item) => (
             <ListItem key={item.id}>
-              <ListItemAvatar>
-                <Avatar>
-                  <img src={item.photo.url} alt={item.title} />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={item.title} />
-              <ListItemSecondaryAction>
+              <Card>
+                <ListItemAvatar>
+                  <Avatar>
+                    <img src={item.photo.url} alt={item.title} />
+                  </Avatar>
+                </ListItemAvatar>
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    {item.title}
+                  </Typography>
+                </CardContent>
+                <CardActions>
                   <Button variant="contained" color="primary" onClick={() => addToCart(item)}>
                     Add to Cart
                   </Button>
-                </ListItemSecondaryAction>
+                </CardActions>
+              </Card>
             </ListItem>
           ))}
-        </List>
+        </Card>
       )}
-      </Container>
+      <Pagination
+        count={Math.ceil(filteredData.length / itemsPerPage)}
+        page={page}
+        onChange={handlePageChange}
+        variant="outlined"
+        shape="rounded"
+      />
+    </Grid>
       <Dialog open={isCartOpen} onClose={closeCart}>
         <DialogTitle>Your Cart</DialogTitle>
         <DialogContent>
