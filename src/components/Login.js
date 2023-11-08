@@ -3,6 +3,20 @@ import { Field, reduxForm } from 'redux-form';
 import { TextField, Button, Typography, Container, Grid } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom'; 
 
+const validate = formData => {
+  const errors = {}
+  if (!formData.email) {
+    errors.email = 'Required'
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)) {
+    errors.email = 'Invalid email address'
+  }
+  if (!formData.password) {
+    errors.password = 'Required';
+  } else if (formData.password.length < 6) {
+    errors.password = 'Password must be at least 6 characters long';
+  }
+  return errors;
+};
 
 const Login = (props) => {
   const navigate = useNavigate();
@@ -75,4 +89,5 @@ const renderTextField = ({ input, label, type, fullWidth, meta: { touched, error
 
 export default reduxForm({
   form: 'loginForm',
+  validate,
 })(Login);
