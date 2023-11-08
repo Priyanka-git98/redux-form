@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Container, Toolbar, Typography, InputBase, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Badge, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Avatar } from '@mui/material';
+import { AppBar, Container, Toolbar, Typography, InputBase, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Badge, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Avatar, CircularProgress, ListItemAvatar } from '@mui/material';
 import { Search, AddShoppingCart } from '@mui/icons-material';
 import UserProfile from './UserProfile';
 
@@ -21,17 +21,33 @@ const ViewPage = () => {
   }); 
 
   useEffect(() => {
+    // Fetch posts from JSONPlaceholder
     fetch('https://jsonplaceholder.typicode.com/posts')
       .then((response) => response.json())
-      .then((data) => {
-        setItems(data);
-        setLoading(false);
+      .then((posts) => {
+        // Fetch photos from JSONPlaceholder
+        fetch('https://jsonplaceholder.typicode.com/photos')
+          .then((response) => response.json())
+          .then((photos) => {
+            // Map photos to posts based on postId
+            const postsWithPhotos = posts.map((post) => ({
+              ...post,
+              photo: photos.find((photo) => photo.id === post.id),
+            }));
+            setItems(postsWithPhotos);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error('Error fetching photos:', error);
+            setLoading(false);
+          });
       })
       .catch((error) => {
         console.error('Error fetching items:', error);
         setLoading(false);
       });
   }, []);
+
 
   const addToCart = (item) => {
     setCart([...cart, item]);
@@ -102,7 +118,7 @@ const ViewPage = () => {
         </Container>
       </AppBar>
       <Container sx={{ marginTop: 2 }}>
-        {loading ? (
+        {/* {loading ? (
           <p>Loading...</p>
         ) : (
           <List>
@@ -117,7 +133,28 @@ const ViewPage = () => {
               </ListItem>
             ))}
           </List>
-        )}
+        )} */}
+         {loading ? (
+        <CircularProgress />
+      ) : (
+        <List>
+          {items.map((item) => (
+            <ListItem key={item.id}>
+              <ListItemAvatar>
+                <Avatar>
+                  <img src={item.photo.url} alt={item.title} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={item.title} />
+              <ListItemSecondaryAction>
+                  <Button variant="contained" color="primary" onClick={() => addToCart(item)}>
+                    Add to Cart
+                  </Button>
+                </ListItemSecondaryAction>
+            </ListItem>
+          ))}
+        </List>
+      )}
       </Container>
       <Dialog open={isCartOpen} onClose={closeCart}>
         <DialogTitle>Your Cart</DialogTitle>
