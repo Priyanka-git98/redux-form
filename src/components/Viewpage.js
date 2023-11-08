@@ -11,6 +11,7 @@ const ViewPage = () => {
   const [isCheckoutDialogOpen, setIsCheckoutDialogOpen] = useState(false);
   const [isCheckoutSuccess, setIsCheckoutSuccess] = useState(false);
   const [isUserProfileOpen, setIsUserProfileOpen] = useState(false);
+  
 
   const [currentUser, setCurrentUser] = useState({
     name: 'Pancy Lucina',

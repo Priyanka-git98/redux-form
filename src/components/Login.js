@@ -56,7 +56,7 @@ const Login = (props) => {
       </form>
       {error && <Typography color="error">{error}</Typography>}
       <Typography>
-        Don't have an account? <Link to="/signup">Sign up here</Link>
+        Don't have an account? <Link to="/">Sign up here</Link>
       </Typography>
     </Container>
   );

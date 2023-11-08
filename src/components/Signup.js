@@ -2,16 +2,30 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { TextField, Button, Typography, Container, Grid } from '@mui/material';
 import {Link} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const Signup = (props) => {
+  const navigate = useNavigate();
   const { handleSubmit } = props;
 
   const onSubmit = (formData) => {
-    console.log('Form data submitted:', formData);
-    localStorage.setItem('formData', JSON.stringify(formData));
-    // navigate('/login')
+    if (isFormValid(formData)) {
+      console.log('Form data submitted:', formData);
+      localStorage.setItem('formData', JSON.stringify(formData));
+      navigate('/login');
+    } else {
+      console.log('Form data is not valid.');
+
+    }
   };
+
+  function isFormValid(formData) {
+    if (formData.name && formData.email && formData.password) {
+      return true;
+    }
+    return false;
+  }
 
   return (
     <Container maxWidth="xs">
