@@ -33,7 +33,6 @@ const validate = formData => {
 };
 
 
-
 const Signup = (props) => {
   const navigate = useNavigate();
   const { handleSubmit } = props;

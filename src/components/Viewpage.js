@@ -118,22 +118,6 @@ const ViewPage = () => {
         </Container>
       </AppBar>
       <Container sx={{ marginTop: 2 }}>
-        {/* {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <List>
-            {items.map((item) => (
-              <ListItem key={item.id}>
-                <ListItemText primary={item.title} secondary={`ID: ${item.id}`} />
-                <ListItemSecondaryAction>
-                  <Button variant="contained" color="primary" onClick={() => addToCart(item)}>
-                    Add to Cart
-                  </Button>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-          </List>
-        )} */}
          {loading ? (
         <CircularProgress />
       ) : (
