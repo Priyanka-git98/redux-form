@@ -1,223 +1,107 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Container, Toolbar, Typography, InputBase, IconButton, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Badge, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Avatar, CircularProgress, ListItemAvatar, Card, CardContent, CardActions, Pagination, Grid } from '@mui/material';
-import { Search, AddShoppingCart} from '@mui/icons-material';
-import UserProfile from './UserProfile';
+import {
+  AppBar, Toolbar, Typography, IconButton, InputBase, Avatar, Card, CardContent, CardMedia, CardActions, Button, Grid, Pagination
+} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-const ViewPage = () => {
-  const [cart, setCart] = useState([]);
+
+function ViewPage() {
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isCheckoutDialogOpen, setIsCheckoutDialogOpen] = useState(false);
-  const [isCheckoutSuccess, setIsCheckoutSuccess] = useState(false);
-  const [isUserProfileOpen, setIsUserProfileOpen] = useState(false);
-  const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredItems, setFilteredItems] = useState([]);
   const [page, setPage] = useState(1);
-  const [itemsPerPage] = useState(9);
-  const [search, setSearch] = useState('');
-
-  const handleSearch = () => {
-    const filtered = data.filter((item) =>
-      item.title.toLowerCase().includes(search.toLowerCase())
-    );
-    setFilteredData(filtered);
-    setPage(1);
-  };
-
-  const handlePageChange = (event, value) => {
-    setPage(value);
-  };
-  
-
-  const [currentUser, setCurrentUser] = useState({
-    name: 'Pancy Lucina',
-    email: 'pancy.lucina@mail.com',
-    phone: '123-456-7890',
-    avatarSrc: '/path-to-user-avatar.jpg',
-  }); 
+  const itemsPerPage = 6;
 
   useEffect(() => {
-    // Fetch posts from JSONPlaceholder
-    fetch('https://jsonplaceholder.typicode.com/posts')
+    fetch('https://jsonplaceholder.typicode.com/photos?_limit=60')
       .then((response) => response.json())
-      .then((posts) => {
-        // Fetch photos from JSONPlaceholder
-        fetch('https://jsonplaceholder.typicode.com/photos')
-          .then((response) => response.json())
-          .then((photos) => {
-            // Map photos to posts based on postId
-            const postsWithPhotos = posts.map((post) => ({
-              ...post,
-              photo: photos.find((photo) => photo.id === post.id),
-            }));
-            setItems(postsWithPhotos);
-            setLoading(false);
-          })
-          .catch((error) => {
-            console.error('Error fetching photos:', error);
-            setLoading(false);
-          });
+      .then((data) => {
+        setItems(data);
+        setFilteredItems(data);
       })
-      .catch((error) => {
-        console.error('Error fetching items:', error);
-        setLoading(false);
-      });
+      .catch((error) => console.error('Error fetching items: ', error));
   }, []);
 
+  useEffect(() => {
+    const filtered = items.filter((item) =>
+      item.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredItems(filtered);
+  }, [searchTerm, items]);
 
-  const addToCart = (item) => {
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const itemsToDisplay = filteredItems.slice(startIndex, endIndex);
+
+  const addToCart = (item) =>{
     setCart([...cart, item]);
-  };
-
-  const removeFromCart = (item) => {
-    const updatedCart = cart.filter((cartItem) => cartItem.id !== item.id);
-    setCart(updatedCart);
-  };
-
-  const openCart = () => {
-    setIsCartOpen(true);
-  };
-
-  const closeCart = () => {
-    setIsCartOpen(false);
-  };
-
-  const openCheckoutDialog = () => {
-    setIsCheckoutDialogOpen(true);
-  };
-
-  const closeCheckoutDialog = () => {
-    setIsCheckoutDialogOpen(false);
-  };
-
-  const handleCheckout = () => {
-    setIsCheckoutSuccess(true);
-    setCart([]);
-    setIsCheckoutDialogOpen(false);
-  };
-
-  const closeCheckoutSuccess = () => {
-    setIsCheckoutSuccess(false);
-  };
-
-  const openUserProfile = () => {
-    setIsUserProfileOpen(true);
-  };
-
-  const closeUserProfile = () => {
-    setIsUserProfileOpen(false);
-  };
+  }
 
   return (
     <div>
       <AppBar position="static">
-        <Container>
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Shopping App
-            </Typography>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ position: 'relative' }}>
-                <InputBase placeholder="Search..." />
-                <IconButton color="inherit" aria-label="search">
-                  <Search />
-                </IconButton>
-              </div>
-              <IconButton color="inherit" aria-label="cart" onClick={openCart}>
-                <Badge badgeContent={cart.length} color="error">
-                  <AddShoppingCart />
-                </Badge>
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Shopping App
+          </Typography>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}>
+              <IconButton color="inherit">
+                <SearchIcon />
               </IconButton>
-              <Avatar alt="User Avatar" src={currentUser.avatarSrc} sx={{ cursor: 'pointer' }} onClick={openUserProfile} />
+              <InputBase
+                placeholder="Search..."
+                inputProps={{ 'aria-label': 'search' }}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
-          </Toolbar>
-        </Container>
+            <IconButton color="inherit">
+              <ShoppingCartIcon />
+            </IconButton>
+            <Avatar alt="User Avatar" src="/path_to_user_avatar.jpg" />
+          </div>
+        </Toolbar>
       </AppBar>
-      <Grid sx={{ marginTop: 2 }}>
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <Card>
-          {items.map((item) => (
-            <ListItem key={item.id}>
-              <Card>
-                <ListItemAvatar>
-                  <Avatar>
-                    <img src={item.photo.url} alt={item.title} />
-                  </Avatar>
-                </ListItemAvatar>
-                <CardContent>
-                  <Typography variant="h5" component="div">
-                    {item.title}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button variant="contained" color="primary" onClick={() => addToCart(item)}>
-                    Add to Cart
-                  </Button>
-                </CardActions>
-              </Card>
-            </ListItem>
-          ))}
-        </Card>
-      )}
+      <Grid container spacing={3}>
+        {filteredItems.map((item) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
+            <Card>
+              <CardMedia
+                component="img"
+                height="140"
+                image={item.url}
+                alt={item.title}
+              />
+              <CardContent>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {item.title}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button variant="contained" size="small" color="primary" onClick={ () => addToCart(item)}>
+                  Add to Cart
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
       <Pagination
-        count={Math.ceil(filteredData.length / itemsPerPage)}
+        count={Math.ceil(filteredItems.length / itemsPerPage)}
         page={page}
         onChange={handlePageChange}
         variant="outlined"
         shape="rounded"
-      />
-    </Grid>
-      <Dialog open={isCartOpen} onClose={closeCart}>
-        <DialogTitle>Your Cart</DialogTitle>
-        <DialogContent>
-          <List>
-            {cart.map((item) => (
-              <ListItem key={item.id}>
-                <ListItemText primary={item.title} />
-                <ListItemSecondaryAction>
-                  <Button variant="contained" color="secondary" onClick={() => removeFromCart(item)}>
-                    Remove
-                  </Button>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-          </List>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeCart} color="primary">
-            Close
-          </Button>
-          <Button color="primary" onClick={openCheckoutDialog}>
-            Checkout
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog open={isCheckoutDialogOpen} onClose={closeCheckoutDialog}>
-        <DialogTitle>Confirm Checkout</DialogTitle>
-        <DialogContent>
-          <p>Are you sure you want to proceed with the checkout?</p>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeCheckoutDialog} color="primary">
-            Cancel
-          </Button>
-          <Button color="primary" onClick={handleCheckout}>
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Snackbar
-        open={isCheckoutSuccess}
-        autoHideDuration={6000}
-        onClose={closeCheckoutSuccess}
-        message="Checkout Successful!"
-      />
-      <UserProfile open={isUserProfileOpen} onClose={closeUserProfile} user={currentUser} /> 
+      /> 
     </div>
   );
-};
+}
 
 export default ViewPage;
