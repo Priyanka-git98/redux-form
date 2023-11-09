@@ -1,7 +1,29 @@
 import React, { useState, useRef } from 'react';
-import { Avatar } from '@mui/material';
+import { Avatar, Button, Typography, Grid, Divider, Paper } from '@mui/material';
+import { styled } from '@mui/system';
+import Navbar from './Navbar';
 
-function UserProfile({ user, onPhotoChange }) {
+const UserProfileContainer = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(3),
+}));
+
+const AvatarContainer = styled(Grid)(({ theme }) => ({
+  padding: theme.spacing(2),
+  '& .MuiAvatar-root': {
+    width: 150, 
+    height: 150, 
+  },
+}));
+
+const UserProfileDetails = styled(Grid)(({ theme }) => ({
+  marginLeft: theme.spacing(15),
+}));
+
+const ChangePhotoButton = styled(Button)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+}));
+
+const UserProfile = ({ user, onPhotoChange }) => {
   const [photo, setPhoto] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -9,7 +31,7 @@ function UserProfile({ user, onPhotoChange }) {
     const selectedPhoto = e.target.files[0];
     if (selectedPhoto) {
       setPhoto(URL.createObjectURL(selectedPhoto));
-      onPhotoChange(selectedPhoto); 
+      onPhotoChange(selectedPhoto);
     }
   };
 
@@ -18,18 +40,37 @@ function UserProfile({ user, onPhotoChange }) {
   };
 
   return (
-    <div className="user-profile-container">
-      <div className="avatar-container">
-        <Avatar src={photo || user.avatar} alt={user.name} />
-        <input type="file" accept="image/*" onChange={handlePhotoChange} ref={fileInputRef} style={{ display: 'none' }} />
-      </div>
-      <div className="user-details">
-        <h2>User Profile</h2>
-        <p>Name: {user.name}</p>
-        <p>Email: {user.email}</p>
-        <p>Phone: {user.phone}</p>
-        <button onClick={handleUploadClick}>Change Photo</button>
-      </div>
+    <div>
+    <Navbar/>
+        <UserProfileContainer>
+      <Grid container spacing={3}>
+        <AvatarContainer item>
+          <Avatar src={photo || user.avatar} alt={user.name} />
+          <input type="file" accept="image/*" onChange={handlePhotoChange} ref={fileInputRef} style={{ display: 'none' }} />
+          <ChangePhotoButton variant="contained" color="primary" onClick={handleUploadClick}>
+            Upload Photo
+          </ChangePhotoButton>
+        </AvatarContainer>
+        <UserProfileDetails item>
+          <Typography variant="h4" gutterBottom>
+            {user.name}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Email: {user.email}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Phone: {user.phone}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Address: {user.address}
+          </Typography>
+        </UserProfileDetails>
+      </Grid>
+      <Divider />
+      <Typography variant="h5" gutterBottom>
+        Order History
+      </Typography>
+    </UserProfileContainer>
     </div>
   );
 }

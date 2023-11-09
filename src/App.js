@@ -13,6 +13,7 @@ function App() {
     name: 'Pancy Lucina',
     email: 'pancy.lucina45@gmail.com',
     phone: '+91-7204-5655-63',
+    address: 'INDIA',
     avatar: '/path_to_user_avatar.jpg',
   });
 
