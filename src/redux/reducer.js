@@ -10,6 +10,8 @@ const initialState = {
         // Handle login action and update user data
         console.log('Updating user data in Redux store:', action.payload);
         return { ...state, user: action.payload };
+        case 'LOGOUT':
+          return {initialState};
       default:
         return state;
     }

@@ -97,7 +97,6 @@ function ViewPage() {
                 <Button variant="contained" size="small" color="primary" onClick={() => addToCart(item)}>
                   Add to Cart
                 </Button>
-
               </CardActions>
             </Card>
           </Grid>

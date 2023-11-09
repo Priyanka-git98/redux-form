@@ -11,3 +11,9 @@ export const registration = (formData) => {
         payload: formData,
       };
     };
+
+    export const logout = () => {
+      return{
+        type: 'LOGOUT'
+      };
+    };
