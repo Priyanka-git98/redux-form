@@ -1,45 +1,37 @@
-import React, {useState} from 'react';
-import { Dialog, DialogTitle, DialogContent, Avatar, Typography, Button } from '@mui/material';
+import React, { useState, useRef } from 'react';
+import { Avatar } from '@mui/material';
 
-const UserProfile = ({ open, onClose, user, onAvatarChange }) => {
-    const [newAvatar, setNewAvatar] = useState(user.avatarSrc);
+function UserProfile({ user, onPhotoChange }) {
+  const [photo, setPhoto] = useState(null);
+  const fileInputRef = useRef(null);
 
-    const handleAvatarChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            setNewAvatar(e.target.result);
-          };
-          reader.readAsDataURL(file);
-          onAvatarChange(event.target.result);
-        }
-      };
+  const handlePhotoChange = (e) => {
+    const selectedPhoto = e.target.files[0];
+    if (selectedPhoto) {
+      setPhoto(URL.createObjectURL(selectedPhoto));
+      onPhotoChange(selectedPhoto); 
+    }
+  };
 
-  
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+  };
+
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>User Profile</DialogTitle>
-      <DialogContent>
-        <Avatar alt="User Avatar" src={newAvatar} sx={{ width: 100, height: 100, marginBottom: 2 }} />
-        <input type="file" accept="image/*" id="avatar-upload" style={{ display: 'none' }} onChange={handleAvatarChange} />
-        <label htmlFor="avatar-upload">
-          <Button variant="contained" component="span">
-            Change Profile Photo
-          </Button>
-        </label>
-        <Typography variant="h6" gutterBottom>
-          {user.name}
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          Email: {user.email}
-        </Typography>
-        <Typography variant="body1">
-          Phone: {user.phone}
-        </Typography>
-      </DialogContent>
-    </Dialog>
+    <div className="user-profile-container">
+      <div className="avatar-container">
+        <Avatar src={photo || user.avatar} alt={user.name} />
+        <input type="file" accept="image/*" onChange={handlePhotoChange} ref={fileInputRef} style={{ display: 'none' }} />
+      </div>
+      <div className="user-details">
+        <h2>User Profile</h2>
+        <p>Name: {user.name}</p>
+        <p>Email: {user.email}</p>
+        <p>Phone: {user.phone}</p>
+        <button onClick={handleUploadClick}>Change Photo</button>
+      </div>
+    </div>
   );
-};
+}
 
 export default UserProfile;

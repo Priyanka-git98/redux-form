@@ -4,8 +4,6 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AddShoppingCart from '@mui/icons-material/ShoppingCart';
-// import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; 
-// import Cart from './Cart';
 import { Link } from 'react-router-dom';
 
 function ViewPage() {
@@ -15,7 +13,7 @@ function ViewPage() {
   const [filteredItems, setFilteredItems] = useState([]);
   const [page, setPage] = useState(1);
   const itemsPerPage = 12;
-  const totalItems = 120; 
+  const totalItems = 120;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   useEffect(() => {
@@ -47,8 +45,8 @@ function ViewPage() {
     setCart([...cart, item]);
   };
 
+
   return (
-    // <Router>
     <div>
       <AppBar position="static" style={{ marginBottom: '20px' }}>
         <Toolbar>
@@ -68,20 +66,22 @@ function ViewPage() {
               />
             </div>
             <Link to='/cart' color='primary'>
-            <IconButton color="inherit" aria-label="cart">
+              <IconButton color="inherit" aria-label="cart">
                 <Badge badgeContent={cart.length} color="secondary">
                   <AddShoppingCart />
                 </Badge>
               </IconButton>
-              </Link>
-            <Avatar alt="User Avatar" src="/path_to_user_avatar.jpg" />
+            </Link>
+            <Link to='/userprofile'>
+              <Avatar alt="User Avatar" src="/path_to_user_avatar.jpg" />
+            </Link>
           </div>
         </Toolbar>
       </AppBar>
       <Grid container spacing={3}>
         {itemsToDisplay.map((item) => (
           <Grid item xs={12} sm={6} md={4} lg={2} key={item.id}>
-            <Card style={{height:'100%'}}>
+            <Card style={{ height: '100%' }}>
               <CardMedia
                 component="img"
                 height="200"
@@ -97,6 +97,7 @@ function ViewPage() {
                 <Button variant="contained" size="small" color="primary" onClick={() => addToCart(item)}>
                   Add to Cart
                 </Button>
+
               </CardActions>
             </Card>
           </Grid>
@@ -111,7 +112,7 @@ function ViewPage() {
         shape="rounded"
       />
     </div>
-    
+
   );
 }
 
