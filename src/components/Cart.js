@@ -1,52 +1,51 @@
 import React from 'react';
 import {
-  Card, CardContent, CardActions, Button, Grid, Typography
+  Container,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  Button,
 } from '@mui/material';
 
-function Cart({ cart, removeFromCart }) {
-  console('Received cart:', cart);
-  return (
-    <div>
-      <Typography variant="h5" component="h2" style={{ marginBottom: '20px' }}>
-        Your Cart
-      </Typography>
-      {cart.length > 0 ? (
-        <Grid container spacing={3}>
-          {cart.map((item) => (
-            <Grid item xs={12} key={item.id}>
-              <Card style={{ height: '100%' }}>
-                <CardContent>
-                  <img src={item.url} alt={item.title} style={{ maxWidth: '100%' }} />
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    {item.title}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    color="secondary"
-                    onClick={() => removeFromCart(item)}
-                  >
-                    Remove from Cart
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <Typography variant="body2" color="textSecondary" component="p">
-          Your cart is empty.
+function Cart({ cart, removeFromCart, checkout }) {
+    return (
+      <Container>
+        <Typography variant="h4" align="center" gutterBottom>
+          Cart
         </Typography>
-      )}
-      <div style={{ marginTop: '20px' }}>
-        <Button variant="contained" color="primary">
+        <List>
+          {cart ? (
+            cart.map(item => (
+              <ListItem key={item.id}>
+                <ListItemText
+                  primary={item.title}
+                  secondary={`User ID: ${item.userId}`}
+                />
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => removeFromCart(item)}
+                >
+                  Remove
+                </Button>
+              </ListItem>
+            ))
+          ) : (
+            <Typography variant="body2" color="textSecondary">
+              Your cart is empty.
+            </Typography>
+          )}
+        </List>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={checkout}
+        >
           Checkout
         </Button>
-      </div>
-    </div>
-  );
-}
-
+      </Container>
+    );
+  }
 export default Cart;

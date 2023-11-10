@@ -1,19 +1,23 @@
+import {REGISTRATION} from './actionType';
+import {LOGIN} from './actionType';
+import {LOGOUT} from './actionType';
+
 export const registration = (formData) => {
     localStorage.setItem('userData', JSON.stringify(formData));
       return {
-        type: 'REGISTRATION',
+        type: REGISTRATION,
       };
     };
     
     export const login = (formData) => {
       return {
-        type: 'LOGIN',
+        type: LOGIN,
         payload: formData,
       };
     };
 
     export const logout = () => {
       return{
-        type: 'LOGOUT'
+        type: LOGOUT
       };
     };

@@ -41,7 +41,7 @@ function App() {
         <Route path="/" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         {/* <Route path ="/viewpage" element = {<ProtectedRoute ><ViewPage/></ProtectedRoute>}/> */}
-        <Route path="/viewpage" element={<ProtectedRoute><ViewPage addToCart={addToCart} cart={cart} removeFromCart={removeFromCart} /></ProtectedRoute>} />
+        <Route path="/viewpage" element={<ProtectedRoute><ViewPage addToCart={addToCart} cart={cart} /></ProtectedRoute>} />
         <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} />} />
         <Route path="/userprofile" element={<UserProfile user={user} onPhotoChange={handlePhotoChange} />} />
       </Routes>

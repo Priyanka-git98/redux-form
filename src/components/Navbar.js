@@ -1,12 +1,14 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { connect } from 'react-redux';
-import { useNavigate} from 'react-router-dom'; // Import withRouter
+import { useNavigate} from 'react-router-dom'; 
 import { logout } from '../redux/action';
 
 const Navbar = ({ logout }) => {
     const navigate = useNavigate();
   const handleLogout = () => {
+    localStorage.removeItem('formData');
+    localStorage.removeItem('email');
     logout(); 
     navigate('/'); 
   };
