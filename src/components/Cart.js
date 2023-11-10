@@ -8,6 +8,7 @@ import {
   Button,
 } from '@mui/material';
 
+
 function Cart({ cart, removeFromCart, checkout }) {
     return (
       <Container>

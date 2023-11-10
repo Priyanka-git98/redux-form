@@ -5,6 +5,8 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import AddShoppingCart from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
+import '../App.css';
+
 
 function ViewPage() {
   const [items, setItems] = useState([]);
@@ -102,6 +104,7 @@ function ViewPage() {
           </Grid>
         ))}
       </Grid>
+      <div className="pagination-container">
       <Pagination
         count={totalPages}
         color="secondary"
@@ -110,6 +113,7 @@ function ViewPage() {
         variant="outlined"
         shape="rounded"
       />
+    </div>
     </div>
 
   );
