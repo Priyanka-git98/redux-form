@@ -4,6 +4,7 @@ import {
 } from '@mui/material';
 
 function Cart({ cart, removeFromCart }) {
+  console('Received cart:', cart);
   return (
     <div>
       <Typography variant="h5" component="h2" style={{ marginBottom: '20px' }}>

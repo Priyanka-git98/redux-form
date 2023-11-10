@@ -67,9 +67,6 @@ const UserProfile = ({ user, onPhotoChange }) => {
         </UserProfileDetails>
       </Grid>
       <Divider />
-      <Typography variant="h5" gutterBottom>
-        Order History
-      </Typography>
     </UserProfileContainer>
     </div>
   );
