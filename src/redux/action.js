@@ -27,16 +27,19 @@ export const logout = () => {
 export const addToCart = (item) => {
   return {
     type: ADD_TO_CART,
-    payload: {
-      ...item,
-      quantity: 1,
-    },
-  }
-}
+    payload: item,
+  };
+};
 
 export const removeFromCart = (item) => {
   return {
     type: REMOVE_FROM_CART,
     payload: item,
-  }
-}
+  };
+};
+
+export const checkoutCart = () => {
+  return {
+    type: 'CHECKOUT_CART',
+  };
+};

@@ -21,28 +21,13 @@ function App() {
     console.log('Selected photo:', newPhoto);
   };
 
-  const [cart, setCart] = useState([]);
-  const addToCart = (item) => {
-    console.log('Adding item to cart:', item);
-    setCart([...cart, item]);
-    console.log('Updated cart:', cart);
-  };
-
-  const removeFromCart = (item) => {
-    console.log('Removing item from cart:', item);
-    const updatedCart = cart.filter((cartItem) => cartItem.id !== item.id);
-    setCart(updatedCart);
-    console.log('Updated cart:', updatedCart);
-  };
-
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        {/* <Route path ="/viewpage" element = {<ProtectedRoute ><ViewPage/></ProtectedRoute>}/> */}
-        <Route path="/viewpage" element={<ProtectedRoute><ViewPage addToCart={addToCart} cart={cart} /></ProtectedRoute>} />
-        <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} />} />
+        <Route path ="/viewpage" element = {<ProtectedRoute ><ViewPage/></ProtectedRoute>}/>
+        <Route path= "/cart"  element={<Cart/>} />
         <Route path="/userprofile" element={<UserProfile user={user} onPhotoChange={handlePhotoChange} />} />
       </Routes>
     </Router>

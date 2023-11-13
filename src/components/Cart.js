@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { removeFromCart, checkoutCart } from '../redux/action';
 import {
   Container,
   Typography,
@@ -6,10 +8,22 @@ import {
   ListItem,
   ListItemText,
   Button,
+  Snackbar,
 } from '@mui/material';
 
 
-function Cart({ cart, removeFromCart, checkout }) {
+function Cart({ cart, removeFromCart, checkoutCart }) {
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+
+  const handleCheckout = () => {
+    checkoutCart();
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
     return (
       <Container>
         <Typography variant="h4" align="center" gutterBottom>
@@ -39,14 +53,29 @@ function Cart({ cart, removeFromCart, checkout }) {
           )}
         </List>
         <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={checkout}
-        >
+        variant="contained"
+        color="primary"
+        fullWidth
+        onClick={handleCheckout}
+      >
           Checkout
         </Button>
+        <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message="Checkout successful!"
+      />
       </Container>
     );
   }
-export default Cart;
+  const mapStateToProps = (state) => ({
+    cart: state.cart.cartItems,
+  });
+  
+  const mapDispatchToProps = {
+    removeFromCart,
+    checkoutCart,
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Cart);
